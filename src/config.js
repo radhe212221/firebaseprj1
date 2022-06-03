@@ -1,1 +1,1 @@
-export const URL = `https://june3-5cc25-default-rtdb.firebaseio.com/users`
+export const URL = `https://prj2-4e0de-default-rtdb.firebaseio.com/products`
