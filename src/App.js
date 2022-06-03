@@ -3,6 +3,7 @@ import { URL } from './config'
 import axios from 'axios'
 export default function App() {
     const [a, seta] = useState([])
+    const [b, setb] = useState([])
     const [loading, setloading] = useState(false)
 
     const insert = src => {
@@ -19,14 +20,17 @@ export default function App() {
             })
     }
 
-    const handleChange = e => {
+    const handleChange = async e => {
         setloading(true)
-        let fr = new FileReader()
-        let file = e.target.files[0]
-
-        fr.onload = () => {
-            insert(fr.result)
+        let temp = []
+        for (let i = 0; i < e.target.files.length; i++) {
+            let r = await createImage(e.target.files[i], i)
         }
+    }
+
+    const createImage = (file, index) => {
+        let fr = new FileReader()
+        fr.onload = () => insert(fr.result)
         if (file) {
             return fr.readAsDataURL(file)
         }
@@ -53,7 +57,7 @@ export default function App() {
     return (
         <div>
             <h1>new upload</h1>
-            <input type="file" onChange={handleChange} />
+            <input type="file" multiple={true} onChange={handleChange} />
             <h2>{loading ? "uploading.." : ""}</h2>
             <h1>all images {a?.length || 0} </h1>
             {a?.map((x, i) => <img key={i} width={100} src={x.src} />)}
